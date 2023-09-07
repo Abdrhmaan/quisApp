@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quis App</title>
+    <link rel="stylesheet" href="/style.css">
+</head> 
+<body>
+    <div class="App">
+        <h1>Quis App</h1>
+        <div class="Quis">
+            <h2 id="question"> Question goes Here</h2>
+            <div id="Answer">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
+            </div>
+            <button id="next">Next</button>
+        </div>
+
+
+
+    </div>
+    
+    <script>
+        // waa opjecte suaalaha iyo jawaapaha aa so bandhigi lahayd
+
+        const questions  = [
+            {
+                question : "whic is your large animal in the world?",
+                anser: [
+                    {
+                        text : "shark" , correcte : false
+                    },
+                    {
+                        text : "Blue while" , correcte : true
+                    },
+                    {
+                       
+                        text : "elephent" , correcte : false
+                    },
+                    {
+                        text : "Giraffe" , correcte : false
+                    }
+                ]
+            },
+            {
+                question : "which is smallest contanint in the world?",
+                anser: [
+                    {
+                        text : "aasita" , correcte : false
+                    },
+                    {
+                        text : "Ustarali" , correcte : true
+                    },
+                    {
+                       
+                        text : "somali" , correcte : true
+                    },
+                    {
+                        text : "africa" , correcte : false
+                    }
+                ]
+            },
+            {
+                question : "which is smallest contanint in the world?",
+                anser: [
+                    {
+                        text : "aasita" , correcte : false
+                    },
+                    {
+                        text : "Ustarali" , correcte : true
+                    },
+                    {
+                       
+                        text : "somali" , correcte : true
+                    },
+                    {
+                        text : "africa" , correcte : false
+                    }
+                ]
+                
+
+            }, {
+                question : "which is smallest contanint in the world?",
+                anser: [
+                    {
+                        text : "aasita" , correcte : false
+                    },
+                    {
+                        text : "Ustarali" , correcte : true
+                    },
+                    {
+                       
+                        text : "somali" , correcte : true
+                    },
+                    {
+                        text : "africa" , correcte : false
+                    }
+                ]
+            }
+
+        ]
+      
+       
+      
+    let questionElement = document.getElementById("question")
+     console.log(questionElement)
+     let answerButton = document.getElementById("Answer")
+     console.log(answerButton)
+     let NextButton = document.getElementById("next")
+     console.log(NextButton)
+
+
+
+    
+
+     // suaalaha meehs ka  ilaabanayaan waaayeh
+       let CurrentQuestionIndex = 0
+       // score waaa tirada meehs ka bilaabanyso 
+       let Score = 0
+
+       // function waxuu qabanya suaalaha 0 k bilabaya iyo scroe 0  ka bilaabaya kaliya
+       function startQuis() {
+
+        CurrentQuestionIndex = 0
+        Score = 0
+        NextButton.innerHTML = "next"
+        //   ShowQestion() suaalaha iyo jawaaapaha ayuu so bandhiagaya function
+        ShowQestion()
+
+        
+       }
+
+      const  ShowQestion  =()=> {
+        ///  reseState(); waxuuu tirtirayaa button waxa ku qornaa 
+        reseState();
+        let CurrentQuestion = questions[CurrentQuestionIndex]
+      //  console.log(CurrentQuestion)
+        let questionNO = CurrentQuestionIndex + 1;
+        console.log(questionNO)
+        questionElement.innerHTML = questionNO + " ."  + CurrentQuestion.question;
+
+     
+        CurrentQuestion.anser.forEach((answer) => {
+            console.log(answer )
+            let button= document.createElement("button")
+            button.innerHTML = answer.text;
+            button.classList.add("btn")
+
+            answerButton.appendChild(button)
+            if(answer.correcte){
+                button.dataset.correcte = answer.correcte
+            }
+            // button click saaa u fahanto waxa la doortay
+            button.addEventListener("click" , selectAnswer)
+          
+
+           
+            
+        });
+
+      }
+   const reseState=()=> {
+    
+    while(answerButton.firstElementChild){
+    answerButton.removeChild(answerButton.firstChild)
+    }
+   }
+
+
+   // wax kali ma syamnayo   CurrentQuestionIndex++ halii ku sii dar adi
+
+   function handleNextbtton() {
+    CurrentQuestionIndex++
+    if(CurrentQuestionIndex < questions.length){
+        ShowQestion()
+    } else {
+        showSquare()
+    }
+
+    
+   }
+   function showSquare() {
+    reseState()
+    questionElement.innerHTML =`you scored${Score} out ${questions.length}`
+    NextButton.innerHTML = "play again"
+    NextButton.style.display = "block"
+
+   }
+
+   // nextbtn = waxa ku xiraysa click siddi u sii waddu 
+   NextButton.addEventListener("click" ,()=> {
+
+    if(CurrentQuestionIndex < questions.length){
+        handleNextbtton()
+    } else {
+        startQuis()
+    }
+
+   })
+
+      startQuis()
+
+      // waxuu qabanay waxa click la siiyy buu sheegaya isasgu
+      function selectAnswer(e) {
+        const selectbtn = e.target
+
+        const iscorrecte = selectbtn.dataset.correcte == "true"
+        if(iscorrecte){
+            selectbtn.classList.add("correcte")
+            Score++
+        } else {
+            selectbtn.classList.add("incorrecte")
+        }
+        Array.from(answerButton.children).forEach(button => {
+            if(button.dataset.correcte === "true"){
+                button.classList.add("correct")
+            } 
+            button.disabled = true
+        })
+
+        NextButton.style.display ="block"
+
+        
+      }
+    </script>
+
+</body>
+</html>
